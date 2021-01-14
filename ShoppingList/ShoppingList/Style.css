@@ -14,7 +14,7 @@ ul {
 li {
     min-height: 20px;
     text-align: left;
-    background-color: white;;
+    background-color: white;
     color: darkslategray;
     padding: 5px;
     margin-bottom: 5px;
@@ -23,4 +23,8 @@ li {
 li button {
     float: right;
     margin: 0px 3px;
+}
+
+.checked {
+    text-decoration: line-through;
 }

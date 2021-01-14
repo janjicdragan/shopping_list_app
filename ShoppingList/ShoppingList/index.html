@@ -4,18 +4,20 @@
     <meta charset="utf-8" />
     <title></title>
     <link href="Style.css" rel="stylesheet" />
+    <script src="Scripts/jquery-3.5.1.min.js"></script>
+    <script src="Scripts/script.js"></script>
 </head>
 <body>
-    <div>
+    <div id="createListDiv">
         <h1>Simple Shopping List</h1>
-        <input type="text" placeholder="New List"/>
-        <button>Create</button>
+        <input type="text" id="shoppingListName" placeholder="New List"/>
+        <button onclick="createShoppingList();">Create</button>
     </div>
-    <div style="display:none;">
-        <h1>New List</h1>
-        <input type="text" placeholder="New Item"/>
-        <button>Add</button>
-        <ul>
+    <div id="shoppingListDiv"style="display:none;">
+        <h1 id="shoppingListTitle">New List</h1>
+        <input type="text" id="newItemName" placeholder="New Item"/>
+        <button onclick="addItem()">Add</button>
+        <ul id="shoppingListItems">
             <li>Salad <button>D</button><button>C</button></li>
             <li>Milk <button>D</button><button>C</button></li>
             <li>Bread <button>D</button><button>C</button></li>
