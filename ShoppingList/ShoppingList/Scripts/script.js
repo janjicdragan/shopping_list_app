@@ -7,10 +7,12 @@ function createShoppingList() {
     $.ajax({
         type: "POST",
         dataType: "json",
-        url: "api/ShoppingList/",
+        url: "api/ShoppingListsEF/",
         data: currentList,
         success: function (result) {
+            currentList = result;
             showShoppingList();
+            history.pushState({ id: result.id }, result.name, "?id=" + result.id);
         },
         error: function () {
             console.error("Something bad happened!");
@@ -25,7 +27,9 @@ function showShoppingList() {
     $("#createListDiv").hide();
     $("#shoppingListDiv").show();
 
+    $("#newItemName").val("");
     $("#newItemName").focus();
+    $("#newItemName").unbind("keyup");
     $("#newItemName").keyup(function (event) {
         if (event.keyCode == 13) {
             addItem();
@@ -41,7 +45,7 @@ function addItem() {
     $.ajax({
         type: "POST",
         dataType: "json",
-        url: "api/Item/",
+        url: "api/ItemsEF/",
         data: newItem,
         success: function (result) {
             currentList = result;
@@ -75,7 +79,7 @@ function deleteItem(itemId) {
     $.ajax({
         type: "DELETE",
         dataType: "json",
-        url: "api/Item/" + itemId,
+        url: "api/ItemsEF/" + itemId,
         success: function (result) {
             currentList = result;
             drawItems();
@@ -100,10 +104,10 @@ function checkItem(itemId) {
     $.ajax({
         type: "PUT",
         dataType: "json",
-        url: "api/Item/" + itemId,
+        url: "api/ItemsEF/" + itemId,
         data: changedItem,
         success: function (result) {
-            currentList = result;
+            changedItem = result;
             drawItems();
         },
         error: function () {
@@ -116,7 +120,7 @@ function getShoppingListById(id) {
     $.ajax({
         type: "GET",
         dataType: "json",
-        url: "api/ShoppingList/" + id,
+        url: "api/ShoppingListsEF/" + id,
         success: function (result) {
             currentList = result;
             showShoppingList();
@@ -128,19 +132,38 @@ function getShoppingListById(id) {
     });
 }
 
-$(document).ready(function () {
+function hideShoppingList() {
+    $("#createListDiv").show();
+    $("#shoppingListDiv").hide();
 
+    $("#shoppingListName").val("");
     $("#shoppingListName").focus();
+    $("#shoppingListName").unbind("keyup");
     $("#shoppingListName").keyup(function (event) {
         if (event.keyCode == 13) {
             createShoppingList();
         }
     });
 
+}
+
+$(document).ready(function () {
+
+    hideShoppingList();
+
     var pageUrl = window.location.href;
     var idIndex = pageUrl.indexOf("?id=");
 
     if (idIndex != -1) {
         getShoppingListById(pageUrl.substring(idIndex + 4));
+    }
+
+    window.onpopstate = function (event) {
+        if (event.state == null) {
+            hideShoppingList();
+
+        } else {
+            getShoppingListById(event.state.id);
+        }
     }
 });
