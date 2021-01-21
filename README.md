@@ -23,5 +23,5 @@ Follow these steps to get your development environment set up:
 
 * .NET Framework 4.8
 * ASP.NET Web API 2
-* Entity Framework 6.2.0
-* jQuery 3.4.1
+* Entity Framework 6.1.3
+* jQuery 3.5.1
